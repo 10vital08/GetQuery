@@ -2,17 +2,32 @@ package main
 
 import (
 	"fmt"
-	"net"
+	"io"
+	"log"
+	"net/http"
+	"os"
 )
 
-
-/*func handler(w http.ResponseWriter, r *http.Request)  {
-	fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
-
+func makeQuery(w http.ResponseWriter, r *http.Request)  {
+	fmt.Fprintf(w, "Query")
 }
 
-func main() {
-	http.HandleFunc("/", handler) // each request calls handler
-	log.Fatal(http.ListenAndServe("localhost:8000", nil))
-	//fmt.Println("1")
-}*/
+func returnAnswer()  {
+	
+}
+
+func main(){
+	http.HandleFunc("/", makeQuery)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
+
+	resp, err := http.Get(":8080")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer resp.Body.Close()
+	io.Copy(os.Stdout, resp.Body)
+}
