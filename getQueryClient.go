@@ -22,7 +22,7 @@ func main(){
 		log.Fatal("ListenAndServe: ", err)
 	}
 
-	resp, err2 := http.Get(":8080")
+	/*resp, err2 := http.Get(":8080")
 	if err2 != nil{
 		fmt.Println(err)
 		return
@@ -38,6 +38,6 @@ func main(){
 		if n == 0 || err != nil{
 			break
 		}
-	}
+	}*/
 
 }
