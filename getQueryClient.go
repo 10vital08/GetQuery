@@ -15,13 +15,15 @@ func returnAnswer()  {
 }
 
 func main(){
+	//query := 123
 
+	vebServer := http.NewServeMux()
 	http.HandleFunc("/", makeQuery)//установка роутера
-	err := http.ListenAndServe(":8080", nil)//установка порта
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+	err := http.ListenAndServe(":8080", vebServer)//установка порта
+	log.Fatal(err)
 
+
+	//resp, err := http.Get()
 	/*resp, err2 := http.Get(":8080")
 	if err2 != nil{
 		fmt.Println(err)
