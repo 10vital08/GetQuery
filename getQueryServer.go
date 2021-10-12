@@ -9,6 +9,7 @@ import (
 
 func makeQuery(w http.ResponseWriter, r *http.Request)  {
 	w.Write([]byte(q))
+
 	//fmt.Fprintf(w,"Test")
 }
 
