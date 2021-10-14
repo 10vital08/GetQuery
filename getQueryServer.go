@@ -14,7 +14,7 @@ func makeQuery(w http.ResponseWriter, r *http.Request)  {
 	/*id, err := strconv.Atoi(r.URL.Query().Get("query"))
 	responseString := string(id)
 	fmt.Fprintf(w, responseString)*/
-	
+
 	query2 := r.URL.Query().Get("query")
 	responseString := string(query2)
 	fmt.Fprintf(w, responseString)
