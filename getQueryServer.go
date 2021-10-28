@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
-	"path/filepath"
+	"text/template"
 )
 
 var query string
@@ -16,28 +15,34 @@ func handleQuery(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleHtmlPage(w http.ResponseWriter, r *http.Request) {
-	path := filepath.Join("public", "html", "page.html")
+	content := `<html lang="ru">
+				<head>
+					<meta charset="UTF-8">
+					<title>Title</title>
+				</head>
+				<body>
+					<h1>Привет, Алексей!</h1>
+					<ul>
+						<li>Это третье задание</li>
+					</ul>
+				</body>
+				</html>`
 
-	//создаем html-шаблон
-	tmpl, err := template.ParseFiles(path)
+	//html-шаблон
+	tmpl, err := template.New("example").Parse(content)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
 	}
 
-	//выводим шаблон клиенту в браузер
-	err = tmpl.Execute(w, nil)
-	if err != nil {
-		http.Error(w, err.Error(), 400)
-		return
-	}
+	tmpl.Execute(w, content)
 }
 
 func main() {
 	webServer := http.NewServeMux()
 	webServer.HandleFunc("/", handleQuery) // установка роутера
 	webServer.HandleFunc("/html", handleHtmlPage)
-	log.Println("Запуск веб-сервера на http://127.0.0.1:8080")
+	log.Println("html-страница на http://127.0.0.1:8080/html")
 	err := http.ListenAndServe(":8080", webServer) // установка порта
 	log.Fatal(err)
 
