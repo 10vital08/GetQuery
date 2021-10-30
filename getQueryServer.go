@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"path/filepath"
 	"text/template"
 )
 
@@ -15,27 +16,21 @@ func handleQuery(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleHtmlPage(w http.ResponseWriter, r *http.Request) {
-	content := `<html lang="ru">
-				<head>
-					<meta charset="UTF-8">
-					<title>Title</title>
-				</head>
-				<body>
-					<h1>Привет, Алексей!</h1>
-					<ul>
-						<li>Это третье задание</li>
-					</ul>
-				</body>
-				</html>`
+	content := filepath.Join("public", "html", "Page.html")
 
-	//html-шаблон
-	tmpl, err := template.New("example").Parse(content)
+	//создание html-шаблона
+	tmpl, err := template.ParseFiles(content)
 	if err != nil {
 		http.Error(w, err.Error(), 400)
 		return
 	}
 
-	tmpl.Execute(w, content)
+	//вывод шаблона
+	err = tmpl.Execute(w, nil)
+	if err != nil {
+		http.Error(w, err.Error(), 400)
+		return
+	}
 }
 
 func main() {
